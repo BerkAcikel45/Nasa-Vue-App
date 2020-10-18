@@ -1,0 +1,46 @@
+.form-container{
+    border: 1px solid #f0f3f7;
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 25px;
+}
+
+body{
+    background-color: #56baec;
+}
+.main-container{
+    border: 1px solid #f0f3f7;
+    border-radius: 15px;
+    background-color: #fff;
+    padding: 25px;
+}
+.asteroid-container{
+    display: flex;
+    border-bottom: 1px solid #f0f3f7;
+}
+.asteroid-info{
+    width: 100%;
+    align-self: center;
+    text-align: left;
+    display: flex;
+}
+.asteroid-icon{
+    font-size: 50px;
+}
+.info-container{
+   margin-left: 15px;
+   width: 75%; 
+}
+.header{
+    margin-bottom: 25px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 999;
+
+}
+.fav-container{
+    width: 25%;
+    text-align: center;
+    align-self: center;
+}
