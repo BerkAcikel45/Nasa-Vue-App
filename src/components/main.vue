@@ -8,25 +8,14 @@
                         <b-form-input class="mr-sm-2" placeholder="Search Astroids" v-model="searchText" ></b-form-input>
                     </b-nav-form>
                 <b-nav-item>
-                    <date-range-picker
-                            ref="picker"
-                            :opens="center"
-                            :locale-data="{ firstDay: 1, format: 'DD-MM-YYYY' }"
-                            :singleDatePicker="range"
-                            :timePicker= false
-                            :showWeekNumbers= false
-                            :showDropdowns= false
-                            :autoApply= true
-                            v-model="dateRange"
-                            @update="updateValues"
-                            @toggle="checkOpen"
-                            :linkedCalendars= false
-                            :dateFormat="dateFormat"
-                    >
-                        <template v-slot:input="picker" style="min-width: 350px;">
-                            {{ picker.startDate | date }} - {{ picker.endDate | date }}
-                        </template>
-                    </date-range-picker>
+                    <el-date-picker
+                    v-model="dateRange"
+                    type="daterange"
+                    align="center"
+                    start-placeholder="Start Date"
+                    end-placeholder="End Date"
+                    @change="filter_astreoids_by_date" >
+                    </el-date-picker>
                 </b-nav-item>
             </b-navbar-nav>
         </b-navbar>
@@ -34,7 +23,7 @@
     <div class="container">
         <div class="main-container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" v-show="dateRange === '' ">
                     <div class="asteroid-container" v-for="asteroid in itemsSearched" :key="asteroid.id">
                         <div class="asteroid-icon">
                             <b-icon icon="globe" aria-hidden="true"></b-icon>
@@ -54,6 +43,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12" v-show="dateRange !== '' ">
+                    asdasdas
+                </div>
             </div>
         </div>
     </div>
@@ -65,24 +57,21 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import axios from 'axios';
-import DateRangePicker from 'vue2-daterange-picker'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
 
 const BASE_URL = 'https://api.nasa.gov/neo/rest/v1/'
-const API_KEY = '?api_key=Xad160VwZRCd3j8W6YINnQ4TOqt7CxaTSlgapweu'
+const API_KEY = 'api_key=Xad160VwZRCd3j8W6YINnQ4TOqt7CxaTSlgapweu'
 
 export default {
   name: 'main',
-    components: { DateRangePicker },
-
-  
+    components: {  },
 
   data() {
       return{
           asteroids_arr: [],
           searchText: '',
           dateRange: '',
-          
+          DateRangeNEO: [],
       }
   },
 
@@ -90,7 +79,7 @@ export default {
 created(){
 
     axios({
-    url: BASE_URL + 'neo/browse' + API_KEY,
+    url: BASE_URL + 'neo/browse?' + API_KEY,
     }).then((res) => {
         this.asteroids_arr = res.data.near_earth_objects;
     });
@@ -98,6 +87,34 @@ created(){
 },
 
 methods: {
+    filter_astreoids_by_date(){
+        let formatted_start_date = this.format_dates(this.dateRange[0]);
+        let formatted_end_date = this.format_dates(this.dateRange[1]);
+
+        let req_url = BASE_URL + 'feed?startdate=' + formatted_start_date + '&enddate=' + formatted_end_date + '&' + API_KEY
+        axios.get(req_url)
+                .then((response) => {
+                this.DateRangeNEO.push(response.data.near_earth_objects);
+                console.log(this.DateRangeNEO);
+            });
+    },
+
+    format_dates(date_input){
+        let month = date_input.getMonth();
+        let year = date_input.getFullYear();
+        let day = date_input.getDay();
+        
+        if(month.toString().length == 1){
+            month = '0'+ month
+        }
+
+        let formatted_date = year + '-' + month + '-' + day ;
+        return formatted_date;
+    },
+
+    clear(){
+
+    }
 
 },
 
