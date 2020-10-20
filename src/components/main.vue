@@ -43,8 +43,23 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12" v-show="dateRange !== '' ">
-                    asdasdas
+                <div class="col-md-12" v-show="dateRange !== '' " v-for="(asteroid, index) in DateRangeNEO" :key="index">
+                    <div class="asteroid-header">
+                            <h3>{{index}}</h3>
+                    </div>
+                    <div class="asteroid-container" >
+
+                        <div class="asteroid-icon">
+                            <b-icon icon="globe" aria-hidden="true"></b-icon>
+                        </div>
+                        <div class="asteroid-info">
+                            <div class="info-container">
+                                <div class="" v-for="data in asteroid" :key="data">
+                                        {{data.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -91,21 +106,26 @@ methods: {
         let formatted_start_date = this.format_dates(this.dateRange[0]);
         let formatted_end_date = this.format_dates(this.dateRange[1]);
 
-        let req_url = BASE_URL + 'feed?startdate=' + formatted_start_date + '&enddate=' + formatted_end_date + '&' + API_KEY
+        let req_url = BASE_URL + 'feed?start_date=' + formatted_start_date + '&end_date=' + formatted_end_date + '&detailed=false&' + API_KEY;
         axios.get(req_url)
                 .then((response) => {
-                this.DateRangeNEO.push(response.data.near_earth_objects);
-                console.log(this.DateRangeNEO);
+                this.DateRangeNEO = response.data.near_earth_objects;
+
             });
+
     },
 
     format_dates(date_input){
         let month = date_input.getMonth();
         let year = date_input.getFullYear();
-        let day = date_input.getDay();
-        
+        let day = date_input.getDate();
+
+        if(day.toString().length == 1){
+            day = '0' + day;
+        }
+
         if(month.toString().length == 1){
-            month = '0'+ month
+            month = '0'+ month;
         }
 
         let formatted_date = year + '-' + month + '-' + day ;
