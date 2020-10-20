@@ -1,6 +1,7 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/database'
 
 
   // Your web app's Firebase configuration
@@ -15,18 +16,19 @@ import 'firebase/firestore'
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
   // utils
 const db = firebase.firestore()
 const auth = firebase.auth()
+const database = firebase.database()
+
 
 // collection references
 const usersCollection = db.collection('users')
-
 
 // export utils/refs
 export {
   db,
   auth,
-  usersCollection, 
+  usersCollection,
+  database
 }

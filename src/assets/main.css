@@ -88,3 +88,24 @@ body{
     width: 100%;
     min-height: 100%;
 }
+.clear-button{
+    border: none;
+    background-color: #56baec;
+    font-size: 13px;
+    height: 40px;
+    margin: 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.asteroid-multi-info{
+    display: flex;
+    justify-content: center;
+    text-align: left;
+}
+
+.multi-list{
+    width: 50%;
+    border-bottom: 2px solid #5fbae9;
+
+}

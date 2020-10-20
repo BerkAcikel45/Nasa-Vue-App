@@ -10,7 +10,7 @@
                             <input class="login-input" v-model="log_uname" type="text" placeholder="Username">
                         </div>
                         <div class="col-md-12">
-                            <input class="login-input" v-model="log_pass" placeholder="Password">
+                            <input class="login-input" v-model="log_pass" placeholder="Password" type="password">
                         </div>
                         <div class="col-md-12">
                             <button class="login-button" @click="login" >Login</button>
@@ -21,7 +21,7 @@
                             <input class="login-input" v-model="reg_uname" type="text" placeholder="Username">
                         </div>
                         <div class="col-md-12">
-                            <input class="login-input" v-model="reg_pass" placeholder="Password">
+                            <input class="login-input" v-model="reg_pass" placeholder="Password" >
                         </div>
                         <div class="col-md-12">
                             <button class="login-button" @click="signUp">Login</button>
@@ -78,7 +78,7 @@ export default {
         firebase.auth.createUserWithEmailAndPassword(this.reg_uname, this.reg_pass).then(
           user=> {
             alert("Your account has been created");
-            $router.push('/main')
+            this.$router.push('/main')
           },
           err =>{
             alert("Opps, " + err);
