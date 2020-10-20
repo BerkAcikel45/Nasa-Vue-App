@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="wrapper">
     <div class="container">
         <div class="row" style="justify-content:center">
           <div class="form-container"> 
@@ -7,24 +7,24 @@
                   <b-tabs card>
                       <b-tab title="Sign In" active>
                         <div class="col-md-12">
-                            <input v-model="log_uname" type="text" placeholder="UserName">
+                            <input class="login-input" v-model="log_uname" type="text" placeholder="Username">
                         </div>
                         <div class="col-md-12">
-                            <input v-model="log_pass" placeholder="Password">
+                            <input class="login-input" v-model="log_pass" placeholder="Password">
                         </div>
                         <div class="col-md-12">
-                            <button @click="login" class="LoginBut">Login</button>
+                            <button class="login-button" @click="login" >Login</button>
                         </div>
                       </b-tab>
                       <b-tab title="Sign Up">
                         <div class="col-md-12">
-                            <input v-model="reg_uname" type="text" placeholder="UserName">
+                            <input class="login-input" v-model="reg_uname" type="text" placeholder="Username">
                         </div>
                         <div class="col-md-12">
-                            <input v-model="reg_pass" placeholder="Password">
+                            <input class="login-input" v-model="reg_pass" placeholder="Password">
                         </div>
                         <div class="col-md-12">
-                            <button @click="signUp" class="LoginBut">Login</button>
+                            <button class="login-button" @click="signUp">Login</button>
                         </div>
                       </b-tab>
                   </b-tabs>
