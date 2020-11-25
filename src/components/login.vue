@@ -7,7 +7,7 @@
                   <b-tabs card>
                       <b-tab title="Sign In" active>
                         <div class="col-md-12">
-                            <input class="login-input" v-model="log_uname" type="text" placeholder="Username">
+                            <input class="login-input" v-model="log_uname" type="text" placeholder="Email">
                         </div>
                         <div class="col-md-12">
                             <input class="login-input" v-model="log_pass" placeholder="Password" type="password">
@@ -18,13 +18,16 @@
                       </b-tab>
                       <b-tab title="Sign Up">
                         <div class="col-md-12">
-                            <input class="login-input" v-model="reg_uname" type="text" placeholder="Username">
+                            <input class="login-input" v-model="reg_uname" type="text" placeholder="Email">
                         </div>
                         <div class="col-md-12">
-                            <input class="login-input" v-model="reg_pass" placeholder="Password" >
+                            <input class="login-input" v-model="reg_pass" type="password" placeholder="Password" >
                         </div>
                         <div class="col-md-12">
-                            <button class="login-button" @click="signUp">Login</button>
+                            <input class="login-input" v-model="reg_pass2" type="password" placeholder="Repeat Password" >
+                        </div>
+                        <div class="col-md-12">
+                            <button class="login-button" @click="signUp">Sign UP</button>
                         </div>
                       </b-tab>
                   </b-tabs>
@@ -44,11 +47,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../assets/main.css'
 import * as firebase from '../utils/firebase.js'
+import swal from 'sweetalert';
 
-/*
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'*/
 
 export default {
     name: 'login',
@@ -57,33 +57,35 @@ export default {
     },
     data() {
       return {
-        form: {
-          email: '',
-          name: '',
-          food: null,
-          checked: [],
-        },
-        foods: [{ text: 'Select One', value: null }, 'Carrots', 'Beans', 'Tomatoes', 'Corn'],
         show: true,
         reg_uname: '',
         reg_pass: '',
+        reg_pass2: '',
         log_uname: '',
         log_pass: '',
       }
     },
     methods:{
       signUp(){
-        console.log(firebase);
-        console.log(firebase.auth);
-        firebase.auth.createUserWithEmailAndPassword(this.reg_uname, this.reg_pass).then(
-          user=> {
-            alert("Your account has been created");
-            this.$router.push('/main')
-          },
-          err =>{
-            alert("Opps, " + err);
-          }
+
+        let matched = this.checkPasswordMatch();
+        console.log
+        if (matched === true){
+          firebase.auth.createUserWithEmailAndPassword(this.reg_uname, this.reg_pass).then(
+            user=> {
+              swal("Success", "Your account has been created", "success");
+              this.$router.push('/main')
+            },
+            err =>{
+              swal("Error", err.message, "error");      
+
+            }
         )
+        }
+        else{
+            swal("Error", "Passwords not match!", "warning");    
+        }
+
       },
       login(){
           firebase.auth.signInWithEmailAndPassword(this.log_uname, this.log_pass).then(
@@ -91,9 +93,18 @@ export default {
               alert("You are now connected!")
               this.$router.push('/main');
             }, err => {
-              alert("Opps, " + err);
+            swal("Error", err.message, "error");      
             }
           )
+      },
+
+      checkPasswordMatch(){
+        if(this.reg_pass !== this.reg_pass2){
+          return false;
+        }
+        else{
+          return true;
+        }
       }
 
 

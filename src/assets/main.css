@@ -5,8 +5,13 @@
     padding: 25px;
 }
 
+html {
+    height: 100%;
+    }
+
 body{
     background-color: #56baec;
+    height: 100%;
 }
 .main-container{
     border: 1px solid #f0f3f7;
