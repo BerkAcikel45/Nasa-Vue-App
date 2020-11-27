@@ -114,3 +114,41 @@ body{
     border-bottom: 2px solid #5fbae9;
 
 }
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .main{
+      width: 100%;
+  }
+
+
+  .weather-container{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .weather-card{
+    border: solid 1px #fff;
+    border-radius: 10px;
+    padding: 25px;
+  }

@@ -36,6 +36,13 @@
           </div>
         </div>
     </div>
+    <div class="weather-container">
+      <div class="col-md-12">
+          <div class="col-md-3 weather-card">
+
+          </div>
+      </div>
+    </div>
   </div>
 
 </template>
@@ -48,6 +55,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../assets/main.css'
 import * as firebase from '../utils/firebase.js'
 import swal from 'sweetalert';
+import axios from 'axios';
 
 
 export default {
@@ -63,8 +71,25 @@ export default {
         reg_pass2: '',
         log_uname: '',
         log_pass: '',
+        BASE_URL: process.env.VUE_APP_INSIGHT,
+        API_KEY: process.env.VUE_APP_NEO_KEY,
+        weather:""
       }
     },
+
+    created(){
+
+    axios({
+    url: this.BASE_URL + this.API_KEY + "&feedtype=json&ver=1.0",
+    }).then((res) => {
+        let data = res.data.sol_keys;
+        let today_key = res.data.sol_keys[data.length - 2];
+        this.weather = (res.data[today_key]);
+        console.log(this.weather);
+        console.log(today_key);
+    });
+    },
+
     methods:{
       signUp(){
 
@@ -90,7 +115,6 @@ export default {
       login(){
           firebase.auth.signInWithEmailAndPassword(this.log_uname, this.log_pass).then(
             user=> {
-              alert("You are now connected!")
               this.$router.push('/main');
             }, err => {
             swal("Error", err.message, "error");      
